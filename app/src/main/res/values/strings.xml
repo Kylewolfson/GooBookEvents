@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Facebook-Google Event Sync</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">160319847718137</string>
+</resources>
