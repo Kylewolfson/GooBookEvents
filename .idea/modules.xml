@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Facebook-GoogleEventSync.iml" filepath="$PROJECT_DIR$/Facebook-GoogleEventSync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GooBookEvents.iml" filepath="$PROJECT_DIR$/GooBookEvents.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

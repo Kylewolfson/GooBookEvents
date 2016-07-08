@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.epicodus.facebook_googleeventsync.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,5 +21,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already Logged in to Facebook"
+        android:id="@+id/alreadyLoggedInButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp" />
 
 </RelativeLayout>

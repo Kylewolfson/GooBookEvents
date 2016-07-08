@@ -29,4 +29,5 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:support-v4:24.0.0'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
 }
