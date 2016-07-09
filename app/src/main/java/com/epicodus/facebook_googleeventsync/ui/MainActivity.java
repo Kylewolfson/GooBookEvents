@@ -17,12 +17,15 @@ import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextView info;
-    private LoginButton loginButton;
+    @Bind(R.id.info) TextView mInfo;
+    @Bind(R.id.login_button) LoginButton mLoginButton;
+    @Bind(R.id.alreadyLoggedInButton) Button mAlreadyLoggedInButton;
     private CallbackManager callbackManager;
-    private Button mAlreadyLoggedInButton;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
-        mAlreadyLoggedInButton = (Button) findViewById(R.id.alreadyLoggedInButton);
+        ButterKnife.bind(this);
         mAlreadyLoggedInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,11 +46,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        info = (TextView)findViewById(R.id.info);
-        loginButton = (LoginButton)findViewById(R.id.login_button);
 
-        loginButton.setReadPermissions(Arrays.asList("user_events"));
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        mLoginButton.setReadPermissions(Arrays.asList("user_events"));
+        mLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Intent intent = new Intent(MainActivity.this, EventSelect.class);
@@ -56,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                info.setText("Login attempt canceled.");
+                mInfo.setText("Login attempt canceled.");
 
             }
 
             @Override
             public void onError(FacebookException e) {
-                info.setText("Login attempt failed.");
+                mInfo.setText("Login attempt failed.");
             }
 
         });
