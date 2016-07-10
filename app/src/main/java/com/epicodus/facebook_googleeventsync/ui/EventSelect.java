@@ -1,7 +1,10 @@
 package com.epicodus.facebook_googleeventsync.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -18,6 +21,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import adapters.EventListAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import models.Event;
@@ -26,7 +30,8 @@ import okhttp3.Response;
 public class EventSelect extends AppCompatActivity {
     public static final String TAG = EventSelect.class.getSimpleName();
 
-    @Bind(R.id.listView) ListView mListView;
+    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    private EventListAdapter mAdapter;
 
     public ArrayList<Event> mEvents = new ArrayList();
 
@@ -35,6 +40,7 @@ public class EventSelect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_select);
         ButterKnife.bind(this);
+
         getEvents("placeholder");
     }
 
@@ -52,13 +58,12 @@ public class EventSelect extends AppCompatActivity {
 
                             @Override
                             public void run() {
-                                String[] eventNames = new String[mEvents.size()];
-                                for (int i = 0; i < eventNames.length; i++) {
-                                    eventNames[i] = mEvents.get(i).getName();
-                                }
-
-                                ArrayAdapter adapter = new ArrayAdapter(EventSelect.this, android.R.layout.simple_list_item_1, eventNames);
-                                mListView.setAdapter(adapter);
+                                mAdapter = new EventListAdapter(getApplicationContext(), mEvents);
+                                mRecyclerView.setAdapter(mAdapter);
+                                RecyclerView.LayoutManager layoutManager =
+                                        new LinearLayoutManager(EventSelect.this);
+                                mRecyclerView.setLayoutManager(layoutManager);
+                                mRecyclerView.setHasFixedSize(true);
                             }
 
                         });
