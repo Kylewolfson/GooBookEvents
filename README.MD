@@ -6,7 +6,7 @@
 
 ## Description
 
-_The application utilizes Facebook Login to obtain permissions to access the users' Facebook events and then retrieves and displays their events so they can select which ones they wish to push to their calendar. The specifics of the push process are pending at this time. _
+_The application utilizes Facebook Login to obtain permissions to access the users' Facebook events and then retrieves and displays their events so they can select which ones they wish to push to their calendar. The specifics of the push process are pending at this time._
 
 ## Setup/Installation Requirements
 
