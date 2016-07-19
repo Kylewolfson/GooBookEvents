@@ -14,6 +14,7 @@ public class FacebookEvent {
      String startTime;
      String rsvp;
      String place;
+     String syncStatus;
 
     public FacebookEvent() {}
 
@@ -25,6 +26,7 @@ public class FacebookEvent {
         this.startTime = startTime;
         this.rsvp = rsvp;
         this.place = place;
+        this.syncStatus = "danger zone";
     }
 
     public String getDescription() {
@@ -49,6 +51,14 @@ public class FacebookEvent {
 
     public String getPlace() {
         return place;
+    }
+
+    public String getSyncStatus() {
+        return syncStatus;
+    }
+
+    public void setSyncStatus(String status) {
+        this.syncStatus = status;
     }
 }
 

@@ -5,11 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.epicodus.facebook_googleeventsync.R;
 import com.facebook.GraphRequest;
@@ -21,20 +18,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import adapters.EventListAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import models.FacebookEvent;
-import okhttp3.Response;
 
 public class EventSelect extends AppCompatActivity {
-    public static final String TAG = EventSelect.class.getSimpleName();
 
-    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.syncButton) Button mSyncButton;
+    @Bind(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+    @Bind(R.id.syncButton)
+    Button mSyncButton;
     private EventListAdapter mAdapter;
 
     public ArrayList<FacebookEvent> mEvents = new ArrayList();
@@ -64,8 +60,8 @@ public class EventSelect extends AppCompatActivity {
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        String jsonData = response.toString();
                         mEvents = processResults(response);
+
 
                         EventSelect.this.runOnUiThread(new Runnable() {
 
@@ -87,32 +83,65 @@ public class EventSelect extends AppCompatActivity {
         parameters.putString("fields", "events");
         request.setParameters(parameters);
         request.executeAsync();
-        };
+    }
+
+    ;
 
     public ArrayList<FacebookEvent> processResults(GraphResponse response) {
         ArrayList<FacebookEvent> events = new ArrayList<>();
 
         try {
-            JSONObject fbJSON  = response.getJSONObject();
+            JSONObject fbJSON = response.getJSONObject();
             JSONObject drilldownJSON = fbJSON.getJSONObject("events");
             JSONArray eventsJSON = drilldownJSON.getJSONArray("data");
-                for (int i = 0; i < eventsJSON.length(); i++) {
-                    JSONObject eventJSON = eventsJSON.getJSONObject(i);
+            for (int i = 0; i < eventsJSON.length(); i++) {
+                JSONObject eventJSON = eventsJSON.getJSONObject(i);
 
-                    String name = eventJSON.getString("name");
-                    String rsvp = eventJSON.getString("rsvp_status");
-                    String endTime = eventJSON.optString("end_time", "No end time provided");
-                    String startTime = eventJSON.getString("start_time");
-                    String description = eventJSON.getString("description");
-                    String place = eventJSON.getJSONObject("place").toString();
-                    FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
-                    events.add(event);
-                }
+                String name = eventJSON.getString("name");
+                String rsvp = eventJSON.getString("rsvp_status");
+                String endTime = eventJSON.optString("end_time", "No end time provided");
+                String startTime = eventJSON.getString("start_time");
+                String description = eventJSON.getString("description");
+                String place = eventJSON.getJSONObject("place").toString();
+                FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
+                event.setSyncStatus(eventSyncStatus(event)); //The event is checking its own properties against the google list and determining what its status should be.
+                events.add(event);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return events;
     }
+
+    private String eventSyncStatus(FacebookEvent fbEvent) {
+        if (!isUnique(fbEvent.getName(), mGoogleEvents)) {
+            return "duplicate";
+        } else if (!isInTimeframe(fbEvent.getStartTime(), mGoogleEvents)) {
+            return "danger zone";
+        }
+        else {
+            return "sync me";
+        }
+    }
+
+    private boolean isUnique(String fbEvent, String[] googleEvents) {
+        boolean unique = true;
+
+        for (String event : googleEvents) {
+            if (event.equals(fbEvent)) {
+                unique = false;
+            }
+        } return unique;
+    }
+
+    private boolean isInTimeframe(String fbEvent, String[] googleEvents) {
+        boolean unique = true;
+
+        for (String event : googleEvents) {
+            if (event.equals(fbEvent)) {
+                unique = false;
+            }
+        } return unique;
+    }
+
 }
-
-
