@@ -7,7 +7,7 @@ import org.parceler.Parcel;
  */
 
 @Parcel
-public class Event {
+public class FacebookEvent {
      String description;
      String endTime;
      String name;
@@ -15,8 +15,10 @@ public class Event {
      String rsvp;
      String place;
 
+    public FacebookEvent() {}
 
-    public Event(String description, String endTime, String name, String startTime, String rsvp, String place) {
+
+    public FacebookEvent(String description, String endTime, String name, String startTime, String rsvp, String place) {
         this.description = description;
         this.endTime = endTime;
         this.name = name;

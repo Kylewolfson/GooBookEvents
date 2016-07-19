@@ -2,7 +2,7 @@ package services;
 
 import java.util.ArrayList;
 
-import models.Event;
+import models.FacebookEvent;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;

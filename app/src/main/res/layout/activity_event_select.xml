@@ -18,7 +18,16 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerView"/>
+        android:layout_height="400dp"
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/textView"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Sync!"
+        android:id="@+id/syncButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/recyclerView" />
 
 </RelativeLayout>

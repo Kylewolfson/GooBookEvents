@@ -13,16 +13,16 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import models.Event;
+import models.FacebookEvent;
 
 /**
  * Created by Kyle on 7/10/2016.
  */
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
-    private ArrayList<Event> mEvents = new ArrayList<>();
+    private ArrayList<FacebookEvent> mEvents = new ArrayList<>();
     private Context mContext;
 
-    public EventListAdapter(Context context, ArrayList<Event> events) {
+    public EventListAdapter(Context context, ArrayList<FacebookEvent> events) {
         mContext = context;
         mEvents = events;
     }
@@ -57,7 +57,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             mContext = itemView.getContext();
         }
 
-        public void bindEvent(Event event) {
+        public void bindEvent(FacebookEvent event) {
             mNameTextView.setText(event.getName());
             mDesciptionView.setText(event.getDescription());
             mStartTimeTextView.setText(event.getStartTime());

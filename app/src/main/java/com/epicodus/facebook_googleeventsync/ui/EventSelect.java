@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.epicodus.facebook_googleeventsync.R;
@@ -17,6 +19,7 @@ import com.facebook.AccessToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,16 +27,17 @@ import java.util.ArrayList;
 import adapters.EventListAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import models.Event;
+import models.FacebookEvent;
 import okhttp3.Response;
 
 public class EventSelect extends AppCompatActivity {
     public static final String TAG = EventSelect.class.getSimpleName();
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.syncButton) Button mSyncButton;
     private EventListAdapter mAdapter;
 
-    public ArrayList<Event> mEvents = new ArrayList();
+    public ArrayList<FacebookEvent> mEvents = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,14 @@ public class EventSelect extends AppCompatActivity {
         ButterKnife.bind(this);
 
         getEvents("placeholder");
+        mSyncButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventSelect.this, GoogleSyncActivity.class);
+                intent.putExtra("events", Parcels.wrap(mEvents));
+                startActivity(intent);
+            }
+        });
     }
 
     private void getEvents(String params) {
@@ -76,8 +88,8 @@ public class EventSelect extends AppCompatActivity {
         request.executeAsync();
         };
 
-    public ArrayList<Event> processResults(GraphResponse response) {
-        ArrayList<Event> events = new ArrayList<>();
+    public ArrayList<FacebookEvent> processResults(GraphResponse response) {
+        ArrayList<FacebookEvent> events = new ArrayList<>();
 
         try {
             JSONObject fbJSON  = response.getJSONObject();
@@ -92,7 +104,7 @@ public class EventSelect extends AppCompatActivity {
                     String startTime = eventJSON.getString("start_time");
                     String description = eventJSON.getString("description");
                     String place = eventJSON.getJSONObject("place").toString();
-                    Event event = new Event(description, endTime, name, startTime, rsvp, place);
+                    FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
                     events.add(event);
                 }
         } catch (JSONException e) {
