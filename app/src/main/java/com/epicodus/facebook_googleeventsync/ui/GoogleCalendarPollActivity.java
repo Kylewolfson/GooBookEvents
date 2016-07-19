@@ -56,7 +56,7 @@ public class GoogleCalendarPollActivity extends Activity
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     ProgressDialog mProgress;
-    private ArrayList<String> mEventList = new ArrayList<>();
+    private String[] mEventList;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -367,10 +367,10 @@ public class GoogleCalendarPollActivity extends Activity
                     // the start date.
                     start = event.getStart().getDate();
                 }
-                mEventList.add(String.format("%s (%s)", event.getSummary(), start));
                 eventStrings.add(
                         String.format("%s (%s)", event.getSummary(), start));
             }
+            mEventList = eventStrings.toArray(new String[0]);
             return eventStrings;
         }
 

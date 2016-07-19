@@ -38,12 +38,14 @@ public class EventSelect extends AppCompatActivity {
     private EventListAdapter mAdapter;
 
     public ArrayList<FacebookEvent> mEvents = new ArrayList();
+    private String[] mGoogleEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_select);
         ButterKnife.bind(this);
+        mGoogleEvents = getIntent().getStringArrayExtra("google events");
 
         getEvents("placeholder");
         mSyncButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +65,6 @@ public class EventSelect extends AppCompatActivity {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         String jsonData = response.toString();
-                        Log.v(TAG, jsonData);
                         mEvents = processResults(response);
 
                         EventSelect.this.runOnUiThread(new Runnable() {
