@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mAlreadyLoggedInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EventSelect.class);
+                Intent intent = new Intent(MainActivity.this, GoogleCalendarPollActivity.class);
                 startActivity(intent);
             }
         });
@@ -68,6 +68,4 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
-
 }

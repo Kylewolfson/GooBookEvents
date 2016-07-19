@@ -34,7 +34,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ui.GoogleSyncActivity"></activity>
+        <activity android:name=".ui.GoogleSyncActivity" />
+        <activity android:name=".ui.GoogleCalendarPollActivity"></activity>
     </application>
 
 </manifest>
