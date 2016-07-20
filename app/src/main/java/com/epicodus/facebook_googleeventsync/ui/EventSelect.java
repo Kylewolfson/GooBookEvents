@@ -109,7 +109,7 @@ public class EventSelect extends AppCompatActivity {
                 String endTime = eventJSON.optString("end_time", "No end time provided");
                 String startTime = eventJSON.getString("start_time");
                 String description = eventJSON.getString("description");
-                String place = eventJSON.getJSONObject("place").toString();
+                String place = eventJSON.getJSONObject("place").getString("name");
                 FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
                 event.setSyncStatus(eventSyncStatus(event)); //The event is checking its own properties against the google list and determining what its status should be.
                 events.add(event);
