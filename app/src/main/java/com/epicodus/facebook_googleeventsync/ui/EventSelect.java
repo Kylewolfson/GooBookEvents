@@ -19,7 +19,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import adapters.EventListAdapter;
 import butterknife.Bind;
@@ -104,16 +109,30 @@ public class EventSelect extends AppCompatActivity {
             for (int i = 0; i < eventsJSON.length(); i++) {
                 JSONObject eventJSON = eventsJSON.getJSONObject(i);
 
-                String name = eventJSON.getString("name");
-                String rsvp = eventJSON.getString("rsvp_status");
-                String endTime = eventJSON.optString("end_time", "No end time provided");
                 String startTime = eventJSON.getString("start_time");
-                String description = eventJSON.getString("description");
-                String place = eventJSON.getJSONObject("place").getString("name");
-                FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
-                event.setSyncStatus(eventSyncStatus(event)); //The event is checking its own properties against the google list and determining what its status should be.
-                events.add(event);
-                Log.d("Sync status", event.getSyncStatus());
+                Date date;
+
+                String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+                SimpleDateFormat format = new SimpleDateFormat(pattern);
+                try {
+                    date = format.parse(startTime);
+                    System.out.println(date);
+                    if (date.after(new Date())) {
+                        String name = eventJSON.getString("name");
+                        String rsvp = eventJSON.getString("rsvp_status");
+                        String endTime = eventJSON.optString("end_time", "No end time provided");
+                        String description = eventJSON.getString("description");
+                        String place = eventJSON.getJSONObject("place").getString("name");
+                        FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
+                        event.setSyncStatus(eventSyncStatus(event)); //The event is checking its own properties against the google list and determining what its status should be.
+                        events.add(event);
+                        Log.d("Sync status", event.getSyncStatus());
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -34,10 +34,14 @@ public class FacebookEvent {
     }
 
     public String getEndTime() {
+        if (endTime == "No end time provided") {
+            return endTime;
+        } else {
         String formattedEnd = endTime;
         formattedEnd = formattedEnd.substring(0, formattedEnd.length()-5) + ".000" + formattedEnd.substring(formattedEnd.length()-5, formattedEnd.length());
         formattedEnd = formattedEnd.substring(0, formattedEnd.length()-2) + ":" + formattedEnd.substring(formattedEnd.length()-2, formattedEnd.length());
         return formattedEnd;
+        }
     }
 
     public String getName() {
