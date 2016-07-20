@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         mLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Intent intent = new Intent(MainActivity.this, EventSelect.class);
+                Intent intent = new Intent(MainActivity.this, GoogleCalendarPollActivity.class);
                 startActivity(intent);
             }
 

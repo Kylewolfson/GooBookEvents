@@ -37,6 +37,12 @@ public class EventSelect extends AppCompatActivity {
     private String[] mGoogleEvents;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EventSelect.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_select);

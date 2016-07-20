@@ -36,8 +36,7 @@
 
         <activity android:name=".ui.GoogleSyncActivity" />
         <activity
-            android:name=".ui.GoogleCalendarPollActivity"
-            android:noHistory="true">
+            android:name=".ui.GoogleCalendarPollActivity">
         </activity>
     </application>
 
