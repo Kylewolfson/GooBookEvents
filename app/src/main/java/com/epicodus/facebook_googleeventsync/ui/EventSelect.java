@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -112,6 +113,7 @@ public class EventSelect extends AppCompatActivity {
                 FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
                 event.setSyncStatus(eventSyncStatus(event)); //The event is checking its own properties against the google list and determining what its status should be.
                 events.add(event);
+                Log.d("Sync status", event.getSyncStatus());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -120,7 +122,8 @@ public class EventSelect extends AppCompatActivity {
     }
 
     private String eventSyncStatus(FacebookEvent fbEvent) {
-        if (!isUnique(fbEvent.getName(), mGoogleEvents)) {
+        String facebookComparisonString = fbEvent.getName() + " ("+ fbEvent.getStartTime() + ")";
+        if (!isUnique(facebookComparisonString, mGoogleEvents)) {
             return "duplicate";
         } else if (!isInTimeframe(fbEvent.getStartTime(), mGoogleEvents)) {
             return "danger zone";
@@ -130,12 +133,13 @@ public class EventSelect extends AppCompatActivity {
         }
     }
 
-    private boolean isUnique(String fbEvent, String[] googleEvents) {
+    private boolean isUnique(String fbEventString, String[] googleEventsStrings) {
         boolean unique = true;
 
-        for (String event : googleEvents) {
-            if (event.equals(fbEvent)) {
+        for (String event : googleEventsStrings) {
+            if (event.equals(fbEventString)) {
                 unique = false;
+                return unique; //No need to finish the comparisons
             }
         } return unique;
     }
@@ -149,5 +153,4 @@ public class EventSelect extends AppCompatActivity {
             }
         } return unique;
     }
-
 }

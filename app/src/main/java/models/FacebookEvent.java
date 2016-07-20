@@ -34,7 +34,10 @@ public class FacebookEvent {
     }
 
     public String getEndTime() {
-        return endTime;
+        String formattedEnd = endTime;
+        formattedEnd = formattedEnd.substring(0, formattedEnd.length()-5) + ".000" + formattedEnd.substring(formattedEnd.length()-5, formattedEnd.length());
+        formattedEnd = formattedEnd.substring(0, formattedEnd.length()-2) + ":" + formattedEnd.substring(formattedEnd.length()-2, formattedEnd.length());
+        return formattedEnd;
     }
 
     public String getName() {
@@ -42,7 +45,10 @@ public class FacebookEvent {
     }
 
     public String getStartTime() {
-        return startTime;
+        String formattedStart = startTime;
+        formattedStart = formattedStart.substring(0, formattedStart.length()-5) + ".000" + formattedStart.substring(formattedStart.length()-5, formattedStart.length());
+        formattedStart = formattedStart.substring(0, formattedStart.length()-2) + ":" + formattedStart.substring(formattedStart.length()-2, formattedStart.length());
+        return formattedStart;
     }
 
     public String getRsvp() {

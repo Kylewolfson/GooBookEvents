@@ -32,7 +32,8 @@ import com.google.android.gms.common.ConnectionResult;
         import android.support.annotation.NonNull;
         import android.text.TextUtils;
         import android.text.method.ScrollingMovementMethod;
-        import android.view.View;
+import android.util.Log;
+import android.view.View;
         import android.view.ViewGroup;
         import android.widget.Button;
         import android.widget.LinearLayout;
@@ -347,32 +348,37 @@ public class GoogleSyncActivity extends Activity
             try {
                 List<String> comparisonList = getDataFromApi();
 
-                Event sampleEvent = new Event()
-                        .setSummary("Test Event")
-                        .setLocation("800 Howard St., San Francisco, CA 94103")
-                        .setDescription("Please work");
+                FacebookEvent syncEvent = mFacebookEvents.get(1);
+                Log.d ("Synching event: ", syncEvent.getName());
 
-                DateTime startDateTime = new DateTime("2016-07-16T09:15:00-07:00");
+                Log.d("Start time", syncEvent.getStartTime());
+
+                Event uploadEvent = new Event()
+                        .setSummary(syncEvent.getName())
+                        .setLocation(syncEvent.getPlace())
+                        .setDescription(syncEvent.getDescription());
+
+                DateTime startDateTime = new DateTime(syncEvent.getStartTime());
                 EventDateTime startTime = new EventDateTime()
                         .setDateTime(startDateTime)
                         .setTimeZone("America/Los_Angeles");
-                sampleEvent.setStart(startTime);
+                uploadEvent.setStart(startTime);
 
-                DateTime endDateTime = new DateTime("2016-07-16T09:00:00-08:00");
+                DateTime endDateTime = new DateTime("2016-09-02T17:30:00-07:00");
                 EventDateTime end = new EventDateTime()
                         .setDateTime(endDateTime)
                         .setTimeZone("America/Los_Angeles");
-                sampleEvent.setEnd(end);
+                uploadEvent.setEnd(end);
 
                 boolean isUnique = true;
                 for (String event : comparisonList) {
-                    if (event.equals(sampleEvent.getSummary() +" (" + sampleEvent.getStart().getDateTime() + ")")) {
+                    if (event.equals(uploadEvent.getSummary() +" (" + uploadEvent.getStart().getDateTime() + ")")) {
                         isUnique = false;
                     }
                 }
 
                 if (isUnique) {
-                    mService.events().insert("primary", sampleEvent).execute();
+                    mService.events().insert("primary", uploadEvent).execute();
                 }
 
                 return comparisonList;
