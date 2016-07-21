@@ -1,10 +1,12 @@
 package adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.epicodus.facebook_googleeventsync.R;
@@ -49,6 +51,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         @Bind(R.id.descriptionTextView) TextView mDesciptionView;
         @Bind(R.id.startTimeTextView) TextView mStartTimeTextView;
         @Bind(R.id.endTimeTextView) TextView mEndTimeTextView;
+        @Bind(R.id.background) LinearLayout mBackground;
         private Context mContext;
 
         public EventViewHolder(View itemView) {
@@ -62,6 +65,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             mDesciptionView.setText(event.getDescription());
             mStartTimeTextView.setText(event.getStartTime());
             mEndTimeTextView.setText(event.getEndTime());
+            mBackground.setBackgroundColor(Color.BLUE);
         }
     }
 }

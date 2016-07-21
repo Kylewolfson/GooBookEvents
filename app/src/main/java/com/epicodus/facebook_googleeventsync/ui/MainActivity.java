@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.epicodus.facebook_googleeventsync.R;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -67,5 +69,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        if (AccessToken.getCurrentAccessToken() != null) {
+            Intent intent = new Intent(MainActivity.this, GoogleCalendarPollActivity.class);
+            startActivity(intent);
+        }
     }
 }

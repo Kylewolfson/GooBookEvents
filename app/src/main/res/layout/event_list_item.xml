@@ -4,11 +4,13 @@
     android:layout_height="150dp">
 
     <LinearLayout
+        android:id="@+id/background"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:background="#ffffff"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,16 +20,6 @@
             android:textStyle="bold"
             android:text="Event Name"
             android:textColor="@color/colorPrimary"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Description"
-            android:id="@+id/descriptionTextView"
-            android:layout_below="@+id/eventNameTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textStyle="italic"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -40,19 +32,28 @@
                 android:id="@+id/startTimeTextView"
                 android:textColor="@color/colorAccent"
                 android:layout_gravity="center_horizontal"
-                android:layout_alignParentBottom="true"
-                android:layout_toLeftOf="@+id/endTimeTextView"
-                android:layout_toStartOf="@+id/endTimeTextView"
-                android:layout_marginRight="42dp"
-                android:layout_marginEnd="42dp" />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="End time"
                 android:id="@+id/endTimeTextView"
-                android:layout_alignParentBottom="true"
+                android:textColor="@color/colorAccent"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/colorAccent"/>
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:id="@+id/descriptionTextView"
+                android:textStyle="italic"
+                android:layout_below="@+id/startTimeTextView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
         </RelativeLayout>
     </LinearLayout>
