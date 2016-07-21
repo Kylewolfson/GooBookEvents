@@ -119,7 +119,7 @@ public class EventSelect extends AppCompatActivity {
                 try {
                     date = format.parse(startTime);
                     System.out.println(date);
-//                    if (date.after(new Date())) {
+                    if (date.after(new Date())) {
                         String name = eventJSON.getString("name");
                         Log.d("event name", name);
                         String rsvp = eventJSON.getString("rsvp_status");
@@ -135,7 +135,7 @@ public class EventSelect extends AppCompatActivity {
                         event.setSyncStatus(eventSyncStatus(event)); //The event is checking its own properties against the google list and determining what its status should be.
                         events.add(event);
                         Log.d("Sync status", event.getSyncStatus());
-//                    }
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
