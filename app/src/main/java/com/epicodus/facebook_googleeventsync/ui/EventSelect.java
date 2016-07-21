@@ -159,23 +159,35 @@ public class EventSelect extends AppCompatActivity {
     }
 
     private boolean isUnique(String fbEventString, String[] googleEventsStrings) {
-        boolean unique = true;
-
         for (String event : googleEventsStrings) {
             if (event.equals(fbEventString)) {
-                unique = false;
-                return unique; //No need to finish the comparisons
+                return false;
             }
-        } return unique;
+        } return true;
     }
 
-    private boolean isInTimeframe(String fbEvent, String[] googleEvents) {
-        boolean unique = true;
+    private boolean isInTimeframe(String fbEventTime, String[] googleEvents) {
+        boolean inTime = true;
+        if (googleEvents.length != 101) {
+            return inTime;
+        } else {
+                String event = googleEvents[100];
+//                String eventTime = event.substring(event.length()-30, event.length()-1);
+                Date googleDate = new Date();
+                Date facebookDate = new Date();
+                String pattern = "yyyy-MM-dd'T'HH:mm";
+                SimpleDateFormat format = new SimpleDateFormat(pattern);
+                try {
+                    googleDate = format.parse(event);
+                    facebookDate = format.parse(fbEventTime);
 
-        for (String event : googleEvents) {
-            if (event.equals(fbEvent)) {
-                unique = false;
-            }
-        } return unique;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                if (googleDate.before(facebookDate)) {
+                    inTime = false;
+                }
+        } return inTime;
     }
 }

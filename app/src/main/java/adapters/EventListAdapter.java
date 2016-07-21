@@ -70,10 +70,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             mDesciptionView.setText(event.getDescription());
             mStartTimeTextView.setText(event.getDisplayStart());
             mEndTimeTextView.setText(event.getDisplayEnd());
-            if (event.getSyncStatus() == "duplicate") {
+            if (event.getSyncStatus().equals("duplicate")) {
                 mBackground.setBackgroundColor(Color.LTGRAY);
             }
-            if (event.getSyncStatus() == "danger zone") {
+            if (event.getSyncStatus().equals("danger zone")) {
                 mBackground.setBackgroundColor(Color.YELLOW);
             }
         }
