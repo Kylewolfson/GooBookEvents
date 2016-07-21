@@ -38,7 +38,7 @@ public class FacebookEvent {
     }
 
     public String getEndTime() {
-        if (endTime == "No end time provided") {
+        if (endTime.equals("No end time provided")) {
             return endTime;
         } else {
         String formattedEnd = endTime;

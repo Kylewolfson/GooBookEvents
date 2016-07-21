@@ -47,11 +47,16 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.eventNameTextView) TextView mNameTextView;
-        @Bind(R.id.descriptionTextView) TextView mDesciptionView;
-        @Bind(R.id.startTimeTextView) TextView mStartTimeTextView;
-        @Bind(R.id.endTimeTextView) TextView mEndTimeTextView;
-        @Bind(R.id.background) LinearLayout mBackground;
+        @Bind(R.id.eventNameTextView)
+        TextView mNameTextView;
+        @Bind(R.id.descriptionTextView)
+        TextView mDesciptionView;
+        @Bind(R.id.startTimeTextView)
+        TextView mStartTimeTextView;
+        @Bind(R.id.endTimeTextView)
+        TextView mEndTimeTextView;
+        @Bind(R.id.background)
+        LinearLayout mBackground;
         private Context mContext;
 
         public EventViewHolder(View itemView) {
@@ -70,6 +75,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             }
             if (event.getSyncStatus() == "danger zone") {
                 mBackground.setBackgroundColor(Color.YELLOW);
+            }
         }
     }
 }

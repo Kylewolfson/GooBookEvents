@@ -364,11 +364,21 @@ public class GoogleSyncActivity extends Activity
                         .setTimeZone("America/Los_Angeles");
                 uploadEvent.setStart(startTime);
 
-                DateTime endDateTime = new DateTime("2016-09-02T17:30:00-07:00");
-                EventDateTime end = new EventDateTime()
-                        .setDateTime(endDateTime)
-                        .setTimeZone("America/Los_Angeles");
-                uploadEvent.setEnd(end);
+                if (!syncEvent.getEndTime().equals("No end time provided")) {
+                    DateTime endDateTime = new DateTime(syncEvent.getEndTime());
+                    EventDateTime end = new EventDateTime()
+                            .setDateTime(endDateTime)
+                            .setTimeZone("America/Los_Angeles");
+                    uploadEvent.setEnd(end);
+                } else {
+                    DateTime endDateTime = new DateTime(syncEvent.getStartTime());
+                    DateTime endTimeOffset = new DateTime(endDateTime.getValue() + 3600 * 1000 * 3);
+
+                    EventDateTime end = new EventDateTime()
+                            .setDateTime(endTimeOffset)
+                            .setTimeZone("America/Los_Angeles");
+                    uploadEvent.setEnd(end);
+                }
 
                 boolean isUnique = true;
                 for (String event : comparisonList) {
