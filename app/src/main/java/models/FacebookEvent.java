@@ -2,6 +2,10 @@ package models;
 
 import org.parceler.Parcel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Kyle on 7/8/2016.
  */
@@ -69,6 +73,37 @@ public class FacebookEvent {
 
     public void setSyncStatus(String status) {
         this.syncStatus = status;
+    }
+
+    public String getDisplayStart() {
+        Date date = new Date();
+        String pattern = "yyyy-MM-dd'T'HH:mm";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        try {
+            date = format.parse(startTime);
+            } catch (ParseException e) {
+        e.printStackTrace();
+    }
+        String display = date.toString();
+        display = display.substring(0, 16) + display.substring(23, display.length());
+        return display;
+    }
+
+    public String getDisplayEnd() {
+        if (this.getEndTime() == "No end time provided") {
+            return "No end time provided";
+        }
+        Date date = new Date();
+        String pattern = "yyyy-MM-dd'T'HH:mm";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        try {
+            date = format.parse(endTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String display = date.toString();
+        display = display.substring(0, 16) + display.substring(23, display.length());
+        return display;
     }
 }
 

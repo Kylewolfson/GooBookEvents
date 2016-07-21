@@ -63,9 +63,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         public void bindEvent(FacebookEvent event) {
             mNameTextView.setText(event.getName());
             mDesciptionView.setText(event.getDescription());
-            mStartTimeTextView.setText(event.getStartTime());
-            mEndTimeTextView.setText(event.getEndTime());
-            mBackground.setBackgroundColor(Color.BLUE);
+            mStartTimeTextView.setText(event.getDisplayStart());
+            mEndTimeTextView.setText(event.getDisplayEnd());
+            if (event.getSyncStatus() == "duplicate") {
+                mBackground.setBackgroundColor(Color.LTGRAY);
+            }
+            if (event.getSyncStatus() == "danger zone") {
+                mBackground.setBackgroundColor(Color.YELLOW);
         }
     }
 }
