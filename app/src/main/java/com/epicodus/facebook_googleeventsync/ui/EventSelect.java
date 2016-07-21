@@ -92,8 +92,10 @@ public class EventSelect extends AppCompatActivity {
                 });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "events");
+        parameters.putString("fields", "events.limit(100)");
+        parameters.putInt("limit", 100);
         request.setParameters(parameters);
+        Log.d("request", request.toString());
         request.executeAsync();
     }
 
@@ -117,17 +119,23 @@ public class EventSelect extends AppCompatActivity {
                 try {
                     date = format.parse(startTime);
                     System.out.println(date);
-                    if (date.after(new Date())) {
+//                    if (date.after(new Date())) {
                         String name = eventJSON.getString("name");
+                        Log.d("event name", name);
                         String rsvp = eventJSON.getString("rsvp_status");
                         String endTime = eventJSON.optString("end_time", "No end time provided");
                         String description = eventJSON.getString("description");
-                        String place = eventJSON.getJSONObject("place").getString("name");
+                        String place;
+                        if (eventJSON.optJSONObject("place") != null) {
+                            place = eventJSON.optJSONObject("place").optString("name", "No location provided");
+                        } else {
+                            place = "No location provided";
+                        }
                         FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
                         event.setSyncStatus(eventSyncStatus(event)); //The event is checking its own properties against the google list and determining what its status should be.
                         events.add(event);
                         Log.d("Sync status", event.getSyncStatus());
-                    }
+//                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -137,6 +145,7 @@ public class EventSelect extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.d("Event size", ""+events.size());
         return events;
     }
 
