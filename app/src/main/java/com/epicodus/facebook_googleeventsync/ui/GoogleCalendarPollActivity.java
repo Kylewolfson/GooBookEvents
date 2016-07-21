@@ -370,6 +370,17 @@ public class GoogleCalendarPollActivity extends Activity
                 eventStrings.add(
                         String.format("%s (%s)", event.getSummary(), start));
             }
+            if (items.size() == 100) {
+                DateTime start = items.get(99).getStart().getDateTime();
+                if (start == null) {
+                    // All-day events don't have start times, so just use
+                    // the start date.
+                    start = items.get(99).getStart().getDate();
+                }
+                eventStrings.add(
+                        String.format("%s", start));
+                System.out.println(eventStrings.get(100));
+            }
             mEventList = eventStrings.toArray(new String[0]);
             return eventStrings;
         }

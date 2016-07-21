@@ -96,7 +96,6 @@ public class EventSelect extends AppCompatActivity {
         Bundle parameters = new Bundle();
         parameters.putString("fields", "events.limit(100)");
         request.setParameters(parameters);
-        Log.d("request", request.toString());
         request.executeAsync();
     }
 
@@ -119,10 +118,8 @@ public class EventSelect extends AppCompatActivity {
                 SimpleDateFormat format = new SimpleDateFormat(pattern);
                 try {
                     date = format.parse(startTime);
-                    System.out.println(date);
                     if (date.after(new Date())) {
                         String name = eventJSON.getString("name");
-                        Log.d("event name", name);
                         String rsvp = eventJSON.getString("rsvp_status");
                         String endTime = eventJSON.optString("end_time", "No end time provided");
                         String description = eventJSON.getString("description");
@@ -135,7 +132,6 @@ public class EventSelect extends AppCompatActivity {
                         FacebookEvent event = new FacebookEvent(description, endTime, name, startTime, rsvp, place);
                         event.setSyncStatus(eventSyncStatus(event)); //The event is checking its own properties against the google list and determining what its status should be.
                         events.add(event);
-                        Log.d("Sync status", event.getSyncStatus());
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
