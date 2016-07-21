@@ -93,7 +93,6 @@ public class EventSelect extends AppCompatActivity {
 
         Bundle parameters = new Bundle();
         parameters.putString("fields", "events.limit(100)");
-        parameters.putInt("limit", 100);
         request.setParameters(parameters);
         Log.d("request", request.toString());
         request.executeAsync();
