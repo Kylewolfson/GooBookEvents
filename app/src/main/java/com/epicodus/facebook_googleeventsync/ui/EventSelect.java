@@ -1,6 +1,7 @@
 package com.epicodus.facebook_googleeventsync.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.epicodus.facebook_googleeventsync.R;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.AccessToken;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +57,7 @@ public class EventSelect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_select);
         ButterKnife.bind(this);
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).color(Color.BLACK).build());
         mGoogleEvents = getIntent().getStringArrayExtra("google events");
 
         getEvents("placeholder");

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="200dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/background"
@@ -11,19 +11,20 @@
         android:layout_height="match_parent"
         android:padding="10dp"
         >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/eventNameTextView"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="Event Name"
-            android:textColor="@color/colorPrimary"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventNameTextView"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text="Event Name"
+                android:textColor="@color/colorPrimary"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -32,7 +33,7 @@
                 android:id="@+id/startTimeTextView"
                 android:textColor="@color/colorAccent"
                 android:layout_gravity="center_horizontal"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/eventNameTextView"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
             <TextView
@@ -41,7 +42,7 @@
                 android:text="End time"
                 android:id="@+id/endTimeTextView"
                 android:textColor="@color/colorAccent"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/eventNameTextView"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
@@ -49,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description"
+                android:ellipsize="end"
                 android:id="@+id/descriptionTextView"
                 android:textStyle="italic"
                 android:layout_below="@+id/startTimeTextView"
@@ -56,6 +58,16 @@
                 android:layout_alignParentStart="true" />
 
         </RelativeLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Push Event"
+            android:id="@+id/SyncButton"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
 
 </LinearLayout>

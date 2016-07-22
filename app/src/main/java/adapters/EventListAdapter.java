@@ -3,6 +3,7 @@ package adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
         public void bindEvent(FacebookEvent event) {
             mNameTextView.setText(event.getName());
-            mDesciptionView.setText(event.getDescription());
+            mDesciptionView.setText(String.format("%1.400s", event.getDescription()));
             mStartTimeTextView.setText(event.getDisplayStart());
             mEndTimeTextView.setText(event.getDisplayEnd());
             if (event.getSyncStatus().equals("duplicate")) {
