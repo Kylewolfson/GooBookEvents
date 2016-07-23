@@ -29,6 +29,7 @@ import com.facebook.GraphResponse;
 import com.facebook.AccessToken;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.Result;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
@@ -122,10 +123,11 @@ public class EventSelect extends AppCompatActivity implements EasyPermissions.Pe
                             public void run() {
                                 mRecyclerView.setAdapter(new EventListAdapter(mEvents, new EventListAdapter.OnItemClickListener() {
                                     @Override public  void onItemClick(FacebookEvent event) {
-                                        if (event.getSyncStatus() != "call made") {
+                                        if (event.getSyncStatus() != "call made" && event.getSyncStatus() != "duplicate") {
                                             if (checkGoogleStatus()) {
                                                 new MakeRequestTask(mCredential, event).execute(event);
                                                 event.setSyncStatus("call made");
+                                                mRecyclerView.getAdapter().notifyDataSetChanged();
                                             }
                                         } else {
                                             System.out.println("Already syhcing");
@@ -159,6 +161,7 @@ public class EventSelect extends AppCompatActivity implements EasyPermissions.Pe
             JSONArray eventsJSON = drilldownJSON.getJSONArray("data");
             for (int i = 0; i < eventsJSON.length(); i++) {
                 JSONObject eventJSON = eventsJSON.getJSONObject(i);
+                System.out.println(eventJSON.getString("name"));
 
                 String startTime = eventJSON.getString("start_time");
                 Date date;
@@ -171,7 +174,7 @@ public class EventSelect extends AppCompatActivity implements EasyPermissions.Pe
                         String name = eventJSON.getString("name");
                         String rsvp = eventJSON.getString("rsvp_status");
                         String endTime = eventJSON.optString("end_time", "No end time provided");
-                        String description = eventJSON.getString("description");
+                        String description = eventJSON.optString("description", "No description provided");
                         String place;
                         if (eventJSON.optJSONObject("place") != null) {
                             place = eventJSON.optJSONObject("place").optString("name", "No location provided");
@@ -243,10 +246,10 @@ public class EventSelect extends AppCompatActivity implements EasyPermissions.Pe
     private boolean checkGoogleStatus() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
-            chooseAccount();
         } else if (! isDeviceOnline()) {
             Toast.makeText(this.getApplicationContext(), "No network connection available.", Toast.LENGTH_SHORT).show();
+        }else if (mCredential.getSelectedAccountName() == null) {
+            return chooseAccount();
         } else {
             return true;
         }
@@ -254,7 +257,7 @@ public class EventSelect extends AppCompatActivity implements EasyPermissions.Pe
     }
 
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
-    private void chooseAccount() {
+    private boolean chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 this, Manifest.permission.GET_ACCOUNTS)) {
             String accountName = getPreferences(Context.MODE_PRIVATE)
@@ -276,6 +279,7 @@ public class EventSelect extends AppCompatActivity implements EasyPermissions.Pe
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
         }
+        return true;
     }
 
     @Override
@@ -425,38 +429,6 @@ public class EventSelect extends AppCompatActivity implements EasyPermissions.Pe
          * @return List of Strings describing returned events.
          * @throws IOException
          */
-        private List<String> getDataFromApi() throws IOException {
-            // List the next 10 events from the primary calendar.
-            DateTime now = new DateTime(System.currentTimeMillis());
-            List<String> eventStrings = new ArrayList<String>();
-
-            Events events = mService.events().list("primary")
-                    .setMaxResults(100)
-                    .setTimeMin(now)
-                    .setOrderBy("startTime")
-                    .setSingleEvents(true)
-                    .execute();
-            List<Event> items = events.getItems();
-
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    // All-day events don't have start times, so just use
-                    // the start date.
-                    start = event.getStart().getDate();
-                }
-                eventStrings.add(
-                        String.format("%s (%s)", event.getSummary(), start));
-            }
-            return eventStrings;
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            mProgress.show();
-        }
-
 
         @Override
         protected void onCancelled() {

@@ -73,11 +73,25 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             mDesciptionView.setText(String.format("%1.400s", event.getDescription()));
             mStartTimeTextView.setText(event.getDisplayStart());
             mEndTimeTextView.setText(event.getDisplayEnd());
-            if (event.getSyncStatus().equals("duplicate")) {
+            if (event.getSyncStatus().equals("duplicate") || event.getSyncStatus().equals("call made")) {
                 mBackground.setBackgroundColor(Color.LTGRAY);
             }
             if (event.getSyncStatus().equals("danger zone")) {
                 mBackground.setBackgroundColor(Color.YELLOW);
+            }
+            if (event.getSyncStatus().equals("sync me")) {
+                mBackground.setBackgroundColor(Color.WHITE);
+            }
+
+
+            if (event.getSyncStatus().equals("duplicate") || event.getSyncStatus().equals("call made")) {
+                mSyncButton.setText("Event already calendared");
+            }
+            if (event.getSyncStatus().equals("danger zone")) {
+                mSyncButton.setText("Push event - warning: may cause duplicate events");
+            }
+            if (event.getSyncStatus().equals("sync me")) {
+                mSyncButton.setText("Push Event");
             }
             mSyncButton.setOnClickListener(new View.OnClickListener() {
                 @Override
