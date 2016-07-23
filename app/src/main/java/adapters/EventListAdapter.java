@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,12 +23,18 @@ import models.FacebookEvent;
  * Created by Kyle on 7/10/2016.
  */
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
+
+    public interface OnItemClickListener {
+        void onItemClick(FacebookEvent event);
+    }
+
+    private final OnItemClickListener listener;
     private ArrayList<FacebookEvent> mEvents = new ArrayList<>();
     private Context mContext;
 
-    public EventListAdapter(Context context, ArrayList<FacebookEvent> events) {
-        mContext = context;
+    public EventListAdapter(ArrayList<FacebookEvent> events, OnItemClickListener listener) {
         mEvents = events;
+        this.listener = listener;
     }
 
     @Override
@@ -39,7 +46,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(EventListAdapter.EventViewHolder holder, int position) {
-        holder.bindEvent(mEvents.get(position));
+        holder.bindEvent(mEvents.get(position), listener);
     }
 
     @Override
@@ -48,17 +55,12 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.eventNameTextView)
-        TextView mNameTextView;
-        @Bind(R.id.descriptionTextView)
-        TextView mDesciptionView;
-        @Bind(R.id.startTimeTextView)
-        TextView mStartTimeTextView;
-        @Bind(R.id.endTimeTextView)
-        TextView mEndTimeTextView;
-        @Bind(R.id.background)
-        LinearLayout mBackground;
-        private Context mContext;
+        @Bind(R.id.eventNameTextView) TextView mNameTextView;
+        @Bind(R.id.descriptionTextView) TextView mDesciptionView;
+        @Bind(R.id.startTimeTextView) TextView mStartTimeTextView;
+        @Bind(R.id.endTimeTextView) TextView mEndTimeTextView;
+        @Bind(R.id.background) LinearLayout mBackground;
+        @Bind(R.id.syncButton) Button mSyncButton;
 
         public EventViewHolder(View itemView) {
             super(itemView);
@@ -66,7 +68,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             mContext = itemView.getContext();
         }
 
-        public void bindEvent(FacebookEvent event) {
+        public void bindEvent(final FacebookEvent event, final OnItemClickListener listener) {
             mNameTextView.setText(event.getName());
             mDesciptionView.setText(String.format("%1.400s", event.getDescription()));
             mStartTimeTextView.setText(event.getDisplayStart());
@@ -77,6 +79,12 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             if (event.getSyncStatus().equals("danger zone")) {
                 mBackground.setBackgroundColor(Color.YELLOW);
             }
+            mSyncButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(event);
+                }
+            });
         }
     }
 }

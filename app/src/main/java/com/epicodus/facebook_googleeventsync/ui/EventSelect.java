@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.epicodus.facebook_googleeventsync.R;
 import com.facebook.GraphRequest;
@@ -39,10 +40,6 @@ public class EventSelect extends AppCompatActivity {
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.syncButton)
-    Button mSyncButton;
-    private EventListAdapter mAdapter;
-
     public ArrayList<FacebookEvent> mEvents = new ArrayList();
     private String[] mGoogleEvents;
 
@@ -61,14 +58,6 @@ public class EventSelect extends AppCompatActivity {
         mGoogleEvents = getIntent().getStringArrayExtra("google events");
 
         getEvents("placeholder");
-        mSyncButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EventSelect.this, GoogleSyncActivity.class);
-                intent.putExtra("events", Parcels.wrap(mEvents));
-                startActivity(intent);
-            }
-        });
     }
 
     private void getEvents(String params) {
@@ -84,8 +73,11 @@ public class EventSelect extends AppCompatActivity {
 
                             @Override
                             public void run() {
-                                mAdapter = new EventListAdapter(getApplicationContext(), mEvents);
-                                mRecyclerView.setAdapter(mAdapter);
+                                mRecyclerView.setAdapter(new EventListAdapter(mEvents, new EventListAdapter.OnItemClickListener() {
+                                    @Override public  void onItemClick(FacebookEvent event) {
+                                        System.out.println(event.getName());
+                                    }
+                                }));
                                 RecyclerView.LayoutManager layoutManager =
                                         new LinearLayoutManager(EventSelect.this);
                                 mRecyclerView.setLayoutManager(layoutManager);
